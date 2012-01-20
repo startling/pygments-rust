@@ -10,4 +10,8 @@ setup(
     description = "Rust syntax highlighting with pygments!",
     packages = ["pygments_rust"],
     install_requires = ['pygments'],
+    entry_points = """
+    [pygments.lexers]
+    rust = pygments_rust:RustLexer
+    """
 )
