@@ -1,0 +1,4 @@
+# ignore python bytecode
+*.pyc
+# and ignore the stuff `pip install -e .` makes.
+*.egg-info
