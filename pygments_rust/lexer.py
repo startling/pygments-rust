@@ -66,7 +66,9 @@ class RustLexer(RegexLexer):
             (r'\b(\|\||&&)\b', Operator),
             # Comparison operators
             # http://doc.rust-lang.org/doc/rust.html#comparison-operators
-            (r'\b(==|!=|>=|<=|<|>)\b', Operator)
+            (r'\b(==|!=|>=|<=|<|>)\b', Operator),
+            # assignment -- just the equals sign.
+            (r'=', Operator),
         ],
         'comments': [
             # single-line comments; e.g. //this is a comment
