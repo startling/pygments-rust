@@ -4,4 +4,4 @@
 from pygments_rust.lexer import RustLexer
 
 
-__version__ = "0.00.0dev"
+__version__ = "0.00.1dev"
