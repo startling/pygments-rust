@@ -60,13 +60,13 @@ class RustLexer(RegexLexer):
             (r'(\+|\-|\*|/|\%)', Operator),
             # bitwise operators
             # http://doc.rust-lang.org/doc/rust.html#bitwise-operators
-            (r'\b(\&|\||\^|<<|>>|>>>)\b', Operator),
+            (r'(\&|\||\^|<<|>>|>>>)', Operator),
             # Lazy boolean operators
             # http://doc.rust-lang.org/doc/rust.html#lazy-boolean-operators
-            (r'\b(\|\||&&)\b', Operator),
+            (r'(\|\||&&)', Operator),
             # Comparison operators
             # http://doc.rust-lang.org/doc/rust.html#comparison-operators
-            (r'\b(==|!=|>=|<=|<|>)\b', Operator),
+            (r'(==|!=|>=|<=|<|>)', Operator),
             # assignment -- just the equals sign.
             (r'=', Operator),
         ],
