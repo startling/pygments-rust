@@ -39,6 +39,8 @@ class RustLexer(RegexLexer):
             (r'"(\\"|.)*?"', String),
             # float literals
             (r'\d+\.\d+?(f|f32|f64)?', Number.Float),
+            # float literals in exponent form.
+            (r'\d+E\+(\d+)(_(f|f32|f64))?', Number.Float),
             # hexadecimal integer literals
             (r'0x[0-9a-fA-F]+', Number.Hex),
             # binary integer literals
