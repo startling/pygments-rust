@@ -54,7 +54,7 @@ class RustLexer(RegexLexer):
         ],
         'keywords': [
             # general keywords
-            (r'(alt|as|assert|auth|be|bind|block|break|chan|'
+            (r'\b(alt|as|assert|auth|be|bind|block|break|chan|'
             r'check|claim|cont|const|copy|do|else|enum|export|fail|'
             r'fn|for|if|ifrace|impl|import|in|inline|lambda|let|log|'
             r'log_err|mod|mutable|native|note|of|prove|pure|'
@@ -64,7 +64,7 @@ class RustLexer(RegexLexer):
         ],
         'types': [
             # types
-            (r'(any|int|uint|float|char|bool|u8|u16|u32|u64|f32|'
-             r'f64|i8|i16|i32|i64|str|task)', Name.Builtin),
+            (r'\b(any|int|uint|float|char|bool|u8|u16|u32|u64|f32|'
+             r'f64|i8|i16|i32|i64|str|task)\b', Name.Builtin),
         ]
     }
