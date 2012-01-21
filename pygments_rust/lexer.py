@@ -21,8 +21,9 @@ class RustLexer(RegexLexer):
             include('keywords'),
             # types
             include('types'),
-            # punctuation -- braces, parentheses, semicolons, etc.
-            (r'(\[|\]|\{|\}|\(|\)|\;)', Punctuation),
+            # symbols -- braces, parentheses, semicolons, etc.
+            # http://doc.rust-lang.org/doc/rust.html#symbols
+            (r'(\[|\]|\{|\}|\(|\)|\;|\#|::|-\>|\,)', Punctuation),
             # whitespace is insignificant.
             (r'\s+', Whitespace),
         ],
