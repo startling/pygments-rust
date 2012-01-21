@@ -15,6 +15,8 @@ class RustLexer(RegexLexer):
         'root': [
             # use statements, e.g. `use std;`
             (r'(use)(\s(\w+)\;)', bygroups(Keyword.Namespace, Text)),
+            # literals
+            include('literals'),
             # comments
             include('comments'),
             # operators
@@ -28,6 +30,11 @@ class RustLexer(RegexLexer):
             (r'(\[|\]|\{|\}|\(|\)|\;|\#|::|-\>|\,)', Punctuation),
             # whitespace is insignificant.
             (r'\s+', Whitespace),
+        ],
+        'literals': [
+            # http://doc.rust-lang.org/doc/rust.html#literals
+            # character literals:
+            (r"'(\\'|[^'])'", String.Char)
         ],
         'operators':[
             # unary operators
