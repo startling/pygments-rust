@@ -26,7 +26,7 @@ class RustLexer(RegexLexer):
             # single-line comments; e.g. //this is a comment
             (r'//.*', Comment),
             # multi-line comments; e.g., /* this is a \n comment */
-            (r'/\*(.|\n)*\*/', Comment)
+            (r'/\*(.|\n)*?\*/', Comment)
         ],
         'keywords': [
             # general keywords
