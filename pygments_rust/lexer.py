@@ -28,6 +28,9 @@ class RustLexer(RegexLexer):
             # symbols -- braces, parentheses, semicolons, etc.
             # http://doc.rust-lang.org/doc/rust.html#symbols
             (r'(\[|\]|\{|\}|\(|\)|\;|\#|::|-\>|\,)', Punctuation),
+            # identifiers
+            # http://doc.rust-lang.org/doc/rust.html#identifiers
+            (r'(_|\w)(_|\w|\d)*', Name),
             # whitespace is insignificant.
             (r'\s+', Whitespace),
         ],
