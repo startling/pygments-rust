@@ -90,7 +90,7 @@ class RustLexer(RegexLexer):
             # booleans
             (r'(true|false)', Keyword),
             # nil
-            (r'()', Constant),
+            (r'\(\)', Keyword.Constant),
         ],
         'types': [
             # types
