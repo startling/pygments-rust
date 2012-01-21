@@ -37,6 +37,12 @@ class RustLexer(RegexLexer):
             (r"'(\\'|[^'])'", String.Char),
             # string literals
             (r'"(\\"|.)*?"', String),
+            # hexadecimal integer literals
+            (r'0x[0-9a-fA-F]+', Number.Hex),
+            # binary integer literals
+            (r'0b[01]+', Number.Binary),
+            # decimal integer literals
+            (r'\d+', Number.Integer),
         ],
         'operators':[
             # unary operators
