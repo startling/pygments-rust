@@ -88,7 +88,7 @@ class RustLexer(RegexLexer):
             r'log_err|mod|mutable|native|note|of|prove|pure|'
             r'resource|ret|self|tag|type|unsafe|use|while|with)\b', Keyword),
             # booleans
-            (r'(true|false)', Keyword),
+            (r'(true|false)', Keyword.Constant),
             # nil
             (r'\(\)', Keyword.Constant),
         ],
