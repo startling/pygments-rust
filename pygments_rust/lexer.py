@@ -7,6 +7,7 @@ from pygments.token import *
 
 
 class RustLexer(RegexLexer):
+    "A Pygments lexer for rust."
     name = 'Rust'
     aliases = ['rust']
     filenames = ['*.rs']
