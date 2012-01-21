@@ -13,6 +13,8 @@ class RustLexer(RegexLexer):
 
     tokens = {
         'root': [
+            # use statements, e.g. `use std;`
+            (r'(use)(\s(\w+)\;)', bygroups(Keyword.Namespace, Text)),
             # comments
             include('comments'),
             # keywords
