@@ -35,7 +35,16 @@ class RustLexer(RegexLexer):
             (r'(-|\*|\!|@|~)', Operator),
             # binary operators
             # http://doc.rust-lang.org/doc/rust.html#binary-operator-expressions
-            (r'(\+|\-|\*|/|\%)', Operator)
+            (r'(\+|\-|\*|/|\%)', Operator),
+            # bitwise operators
+            # http://doc.rust-lang.org/doc/rust.html#bitwise-operators
+            (r'\b(\&|\||\^|<<|>>|>>>)\b', Operator),
+            # Lazy boolean operators
+            # http://doc.rust-lang.org/doc/rust.html#lazy-boolean-operators
+            (r'\b(\|\||&&)\b', Operator),
+            # Comparison operators
+            # http://doc.rust-lang.org/doc/rust.html#comparison-operators
+            (r'\b(==|!=|>=|<=|<|>)\b', Operator)
         ],
         'comments': [
             # single-line comments; e.g. //this is a comment
