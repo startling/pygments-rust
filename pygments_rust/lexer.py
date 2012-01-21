@@ -89,6 +89,8 @@ class RustLexer(RegexLexer):
             r'resource|ret|self|tag|type|unsafe|use|while|with)\b', Keyword),
             # booleans
             (r'(true|false)', Keyword),
+            # nil
+            (r'()', Constant),
         ],
         'types': [
             # types
