@@ -17,6 +17,8 @@ class RustLexer(RegexLexer):
             (r'(use)(\s(\w+)\;)', bygroups(Keyword.Namespace, Text)),
             # comments
             include('comments'),
+            # operators
+            include('operators'),
             # keywords
             include('keywords'),
             # types
@@ -26,6 +28,14 @@ class RustLexer(RegexLexer):
             (r'(\[|\]|\{|\}|\(|\)|\;|\#|::|-\>|\,)', Punctuation),
             # whitespace is insignificant.
             (r'\s+', Whitespace),
+        ],
+        'operators':[
+            # unary operators
+            # http://doc.rust-lang.org/doc/rust.html#unary-operator-expressions
+            (r'(-|\*|\!|@|~)', Operator),
+            # binary operators
+            # http://doc.rust-lang.org/doc/rust.html#binary-operator-expressions
+            (r'(\+|\-|\*|/|\%)', Operator)
         ],
         'comments': [
             # single-line comments; e.g. //this is a comment
