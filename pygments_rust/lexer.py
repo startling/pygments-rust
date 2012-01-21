@@ -34,7 +34,9 @@ class RustLexer(RegexLexer):
         'literals': [
             # http://doc.rust-lang.org/doc/rust.html#literals
             # character literals:
-            (r"'(\\'|[^'])'", String.Char)
+            (r"'(\\'|[^'])'", String.Char),
+            # string literals
+            (r'"(\\"|.)*?"', String),
         ],
         'operators':[
             # unary operators
