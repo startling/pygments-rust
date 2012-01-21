@@ -67,6 +67,10 @@ class RustLexer(RegexLexer):
             # Comparison operators
             # http://doc.rust-lang.org/doc/rust.html#comparison-operators
             (r'(==|!=|>=|<=|<|>)', Operator),
+            # Binary move operator
+            (r'<-', Operator),
+            # Swap operator
+            (r'<-->', Operator),
             # assignment -- just the equals sign.
             (r'=', Operator),
         ],
