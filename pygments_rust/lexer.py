@@ -36,9 +36,9 @@ class RustLexer(RegexLexer):
         'literals': [
             # http://doc.rust-lang.org/doc/rust.html#literals
             # Character literals
-            (r"'(\\([nrt'\\]|x[0-9a-fA-F_]{2}|u[0-9a-fA-F_]{4}|U[0-9a-fA-F_]{8})|[^'])'", String.Char),
+            (r"'", String.Char, 'character'),
             # String literals
-            (r'"(\\"|.|\\\n)*?"', String),
+            (r'"', String, 'string'),
             # Hexadecimal integer literals
             (r'0x[0-9a-fA-F_]+(i8|i16|i32|i64|u|u8|u16|u32|u64)?', Number.Hex),
             # Binary integer literals
@@ -50,6 +50,15 @@ class RustLexer(RegexLexer):
             (r'\d(\d|_)*(\.(\d|_)+)?((e|E)[+-]?(\d|_)+)?(f|f32|f64)', Number.Float),
             # Decimal integer literals
             (r'\d(\d|_)*(i8|i16|i32|i64|u|u8|u16|u32|u64)?', Number.Integer),
+        ],
+        'string': [
+            (r'\\(\n|[nrt"\\]|x[0-9a-fA-F_]{2}|u[0-9a-fA-F_]{4}|U[0-9a-fA-F_]{8})', String.Escape),
+            (r'[^\\"\n]+', String),
+            (r'"', String.Char, '#pop')
+        ],
+        'character': [
+            (r"\\([nrt'\\]|x[0-9a-fA-F_]{2}|u[0-9a-fA-F_]{4}|U[0-9a-fA-F_]{8})'", String.Escape, '#pop'),
+            (r"[^'\\]'", String.Char, '#pop')
         ],
         'operators': [
             # Unary operators
