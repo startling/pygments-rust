@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from pygments.lexer import RegexLexer, bygroups, combined, include
-from pygments.token import Error, Text, Other, Comment, Operator, Keyword, \
-    Name, String, Number, Generic, Punctuation, Whitespace
+from pygments.token import Comment, Operator, Keyword, Name, String, Number, \
+    Punctuation, Whitespace
 from pygments.unistring import xid_start, xid_continue
 
 
@@ -27,10 +27,13 @@ class RustLexer(RegexLexer):
             # Whitespace is insignificant.
             (r'[ \t\n\r]+', Whitespace),
             (r'(fn)([ \t\n\r]+)', bygroups(Keyword, Whitespace), 'funcname'),
-            (r'(const)([ \t\n\r]+)', bygroups(Keyword, Whitespace), 'constname'),
-            (r'(enum|iface|type)([ \t\n\r]+)', bygroups(Keyword, Whitespace), 'typename'),
+            (r'(const)([ \t\n\r]+)', bygroups(Keyword, Whitespace),
+                'constname'),
+            (r'(enum|iface|type)([ \t\n\r]+)', bygroups(Keyword, Whitespace),
+                'typename'),
             (r'(impl)([ \t\n\r]+)', bygroups(Keyword, Whitespace), 'impl'),
-            (r'(import|use)([ \t\n\r]+)', bygroups(Keyword, Whitespace), 'import'),
+            (r'(import|use)([ \t\n\r]+)', bygroups(Keyword, Whitespace),
+                'import'),
             # Keywords
             include('keywords'),
             # Identifiers
@@ -64,9 +67,12 @@ class RustLexer(RegexLexer):
             (r'0b[01_]+(i8|i16|i32|i64|u|u8|u16|u32|u64)?', Number.Binary),
             # Float literals
             # TODO: there must be a better way to express this.
-            (r'\d(\d|_)*(\.(\d|_)+)((e|E)[+-]?(\d|_)+)?(f|f32|f64)?', Number.Float),
-            (r'\d(\d|_)*(\.(\d|_)+)?((e|E)[+-]?(\d|_)+)(f|f32|f64)?', Number.Float),
-            (r'\d(\d|_)*(\.(\d|_)+)?((e|E)[+-]?(\d|_)+)?(f|f32|f64)', Number.Float),
+            (r'\d(\d|_)*(\.(\d|_)+)((e|E)[+-]?(\d|_)+)?(f|f32|f64)?',
+                Number.Float),
+            (r'\d(\d|_)*(\.(\d|_)+)?((e|E)[+-]?(\d|_)+)(f|f32|f64)?',
+                Number.Float),
+            (r'\d(\d|_)*(\.(\d|_)+)?((e|E)[+-]?(\d|_)+)?(f|f32|f64)',
+                Number.Float),
             # Decimal integer literals
             (r'\d(\d|_)*(i8|i16|i32|i64|u|u8|u16|u32|u64)?', Number.Integer),
         ],
@@ -89,12 +95,14 @@ class RustLexer(RegexLexer):
             (_path, Name.Namespace, '#pop')
         ],
         'string': [
-            (r'\\(\n|[nrt"\\]|x[0-9a-fA-F_]{2}|u[0-9a-fA-F_]{4}|U[0-9a-fA-F_]{8})', String.Escape),
+            (r'\\(\n|[nrt"\\]|x[0-9a-fA-F_]{2}|u[0-9a-fA-F_]{4}|U[0-9a-fA-F_]{8})',
+                String.Escape),
             (r'[^\\"\n]+', String),
             (r'"', String.Char, '#pop')
         ],
         'character': [
-            (r"\\([nrt'\\]|x[0-9a-fA-F_]{2}|u[0-9a-fA-F_]{4}|U[0-9a-fA-F_]{8})'", String.Escape, '#pop'),
+            (r"\\([nrt'\\]|x[0-9a-fA-F_]{2}|u[0-9a-fA-F_]{4}|U[0-9a-fA-F_]{8})'",
+                String.Escape, '#pop'),
             (r"[^'\\]'", String.Char, '#pop')
         ],
         'operators': [
