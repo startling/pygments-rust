@@ -77,7 +77,8 @@ class RustLexer(RegexLexer):
             (r'\d(\d|_)*(i8|i16|i32|i64|u|u8|u16|u32|u64)?', Number.Integer),
         ],
         'funcname': [
-            (_identifier, Name.Function, '#pop')
+            (r'(unary-|' + _identifier + r'|[+*/%&-|^!]|<<|>>|>>>|\[\])',
+                Name.Function, '#pop')
         ],
         'constname': [
             (_identifier, Name.Constant, '#pop')
@@ -126,7 +127,7 @@ class RustLexer(RegexLexer):
             # Swap operator
             (r'<->', Operator),
             # Assignment
-            (r'([+*/%&-|^]|<<|>>|>>)?=', Operator),
+            (r'([+*/%&-|^]|<<|>>|>>>)?=', Operator),
         ],
         'comments': [
             # Single-line comments; e.g. //this is a comment
@@ -136,7 +137,7 @@ class RustLexer(RegexLexer):
         ],
         'keywords': [
             # General keywords
-            (r'(alt|as|assert|be|bind|break|chan|check|claim|cont|'
+            (r'(alt|as|assert|be|bind|break|check|claim|cont|'
              r'copy|do|else|export|fail|fn|for|if|in|'
              r'inline|let|log|mod|move|mutable|native|of|pure|resource|ret|'
              r'self|send|to|unchecked|unsafe|while|with)\b', Keyword),
@@ -150,8 +151,8 @@ class RustLexer(RegexLexer):
         ],
         'types': [
             # Types
-            (r'(int|uint|float|char|bool|u8|u16|u32|u64|f32|f64|i8|i16|i32|'
-             r'i64|str|task|vec)\b', Keyword.Type),
+            (r'(int|uint|float|chan|char|bool|u8|u16|u32|u64|f32|f64|i8|i16|'
+             r'i32|i64|str|task|vec)\b', Keyword.Type),
             # Unimplemented types
             (r'any\b', Keyword.Reserved),
             # Reserved types
