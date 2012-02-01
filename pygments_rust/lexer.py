@@ -1,65 +1,66 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import re
-from pygments.lexer import RegexLexer, include, combined, bygroups
+from pygments.lexer import RegexLexer, include
 from pygments.token import *
+from pygments.unistring import xid_start, xid_continue
 
 
 class RustLexer(RegexLexer):
     "A Pygments lexer for rust."
     name = 'Rust'
     aliases = ['rust']
-    filenames = ['*.rs']
+    filenames = ['*.rc', '*.rs']
 
     tokens = {
         'root': [
-            # literals
+            # Literals
             include('literals'),
-            # comments
+            # Comments
             include('comments'),
-            # operators
+            # Operators
             include('operators'),
-            # keywords
+            # Keywords
             include('keywords'),
-            # types
+            # Types
             include('types'),
-            # symbols -- braces, parentheses, semicolons, etc.
+            # Symbols -- braces, parentheses, semicolons, etc.
             # http://doc.rust-lang.org/doc/rust.html#symbols
-            (r'(\[|\]|\{|\}|\(|\)|\;|\#|::|-\>|\,|:)', Punctuation),
-            # identifiers
+            (r'([](){};#,:.[]|::|-\>)', Punctuation),
+            # Identifiers
             # http://doc.rust-lang.org/doc/rust.html#identifiers
-            (r'(_|\w)(_|\w|\d)*', Name),
-            # whitespace is insignificant.
-            (r'\s+', Whitespace),
+            (r'[%s][%s]*' % (xid_start, xid_continue), Name),
+            # Whitespace is insignificant.
+            (r'[ \t\n\r]+', Whitespace),
         ],
         'literals': [
             # http://doc.rust-lang.org/doc/rust.html#literals
-            # character literals:
-            (r"'(\\'|[^'])'", String.Char),
-            # string literals
-            (r'"(\\"|.)*?"', String),
-            # float literals
-            (r'\d+\.\d+?(f|f32|f64)?', Number.Float),
-            # float literals in exponent form.
-            (r'\d+E\+(\d+)(_(f|f32|f64))?', Number.Float),
-            # hexadecimal integer literals
-            (r'0x[0-9a-fA-F]+', Number.Hex),
-            # binary integer literals
-            (r'0b[01]+', Number.Binary),
-            # decimal integer literals
-            (r'\d+', Number.Integer),
+            # Character literals
+            (r"'(\\([nrt'\\]|x[0-9a-fA-F_]{2}|u[0-9a-fA-F_]{4}|U[0-9a-fA-F_]{8})|[^'])'", String.Char),
+            # String literals
+            (r'"(\\"|.|\\\n)*?"', String),
+            # Hexadecimal integer literals
+            (r'0x[0-9a-fA-F_]+(i8|i16|i32|i64|u|u8|u16|u32|u64)?', Number.Hex),
+            # Binary integer literals
+            (r'0b[01_]+(i8|i16|i32|i64|u|u8|u16|u32|u64)?', Number.Binary),
+            # Float literals
+            # TODO: there must be a better way to express this.
+            (r'\d(\d|_)*(\.(\d|_)+)((e|E)[+-]?(\d|_)+)?(f|f32|f64)?', Number.Float),
+            (r'\d(\d|_)*(\.(\d|_)+)?((e|E)[+-]?(\d|_)+)(f|f32|f64)?', Number.Float),
+            (r'\d(\d|_)*(\.(\d|_)+)?((e|E)[+-]?(\d|_)+)?(f|f32|f64)', Number.Float),
+            # Decimal integer literals
+            (r'\d(\d|_)*(i8|i16|i32|i64|u|u8|u16|u32|u64)?', Number.Integer),
         ],
-        'operators':[
-            # unary operators
+        'operators': [
+            # Unary operators
             # http://doc.rust-lang.org/doc/rust.html#unary-operator-expressions
-            (r'(-|\*|\!|@|~)', Operator),
-            # binary operators
+            (r'([-*!@~])', Operator),
+            # Binary operators
             # http://doc.rust-lang.org/doc/rust.html#binary-operator-expressions
-            (r'(\+|\-|\*|/|\%)', Operator),
-            # bitwise operators
+            (r'([+*/%-])', Operator),
+            # Bitwise operators
             # http://doc.rust-lang.org/doc/rust.html#bitwise-operators
-            (r'(\&|\||\^|<<|>>|>>>)', Operator),
+            (r'([&|^]|<<|>>|>>>)', Operator),
             # Lazy boolean operators
             # http://doc.rust-lang.org/doc/rust.html#lazy-boolean-operators
             (r'(\|\||&&)', Operator),
@@ -69,31 +70,38 @@ class RustLexer(RegexLexer):
             # Binary move operator
             (r'<-', Operator),
             # Swap operator
-            (r'<-->', Operator),
-            # assignment -- just the equals sign.
-            (r'=', Operator),
+            (r'<->', Operator),
+            # Assignment
+            (r'([+*/%&-|^]|<<|>>|>>)?=', Operator),
         ],
         'comments': [
-            # single-line comments; e.g. //this is a comment
+            # Single-line comments; e.g. //this is a comment
             (r'//.*', Comment),
-            # multi-line comments; e.g., /* this is a \n comment */
+            # Multi-line comments; e.g., /* this is a \n comment */
             (r'/\*(.|\n)*?\*/', Comment)
         ],
         'keywords': [
-            # general keywords
-            (r'\b(alt|as|assert|auth|be|bind|block|break|chan|'
-            r'check|claim|cont|const|copy|do|else|enum|export|fail|'
-            r'fn|for|if|ifrace|impl|import|in|inline|lambda|let|log|'
-            r'log_err|mod|mutable|native|note|of|prove|pure|'
-            r'resource|ret|self|tag|type|unsafe|use|while|with)\b', Keyword),
-            # booleans
-            (r'(true|false)', Keyword.Constant),
-            # nil
-            (r'\(\)', Keyword.Constant),
+            # General keywords
+            (r'(alt|as|assert|be|bind|break|chan|check|claim|cont|const|'
+             r'copy|do|else|enum|export|fail|fn|for|if|iface|impl|import|in|'
+             r'inline|let|log|mod|move|mutable|native|of|pure|resource|ret|'
+             r'self|send|type|unchecked|unsafe|use|while|with)\b', Keyword),
+            # Unimplemented keywords
+            (r'(note|prove)\b', Keyword),
+            # Reserved keywords
+            (r'(class|trait)\b', Keyword),
+            # Booleans
+            (r'(true|false)\b', Keyword.Constant),
+            # Nil
+            # (r'\(\)', Keyword.Constant),
         ],
         'types': [
-            # types
-            (r'\b(any|int|uint|float|char|bool|u8|u16|u32|u64|f32|'
-             r'f64|i8|i16|i32|i64|str|task)\b', Name.Builtin),
+            # Types
+            (r'(int|uint|float|char|bool|u8|u16|u32|u64|f32|f64|i8|i16|i32|'
+             r'i64|str|task|vec)\b', Name.Builtin),
+            # Unimplemented types
+            (r'any\b', Name.Builtin),
+            # Reserved types
+            (r'(m32|m64|m128|f80|f16|f128)\b', Name.Builtin),
         ]
     }
